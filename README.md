@@ -1,2 +1,2 @@
 # School-Management-System
-CRUD Project Using Django fFramework
+CRUD Project Using Django Framework
