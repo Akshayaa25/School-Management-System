@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Project</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Bootstrap/css/bootstrap.min.css' %}">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h2 class="page-header text-primary text-center">School Management System</h2>
+        <div class="col-md-3">
+            <!-- Update Data -->
+            {% if pageType == 'edit' %}   
+            <form action="/updateData/{{getdata.id}}" method="POST" autocomplete="off">
+            <!-- Add Data -->
+            {% else %}
+            <form action="addData" method="POST" autocomplete="off">
+            {% endif %}    
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Roll No.</label>
+                    <input type="text" class="form-control" name="rollno" value="{{getdata.Rollno}}" required>
+                </div>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control" name="name" value="{{getdata.Name}}" required>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" class="form-control" name="address" value="{{getdata.Address}}" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" name="email" value="{{getdata.Email}}" required>
+                </div>
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input type="tel" class="form-control" name="mobile" value="{{getdata.Mobile}}" required>
+                </div>
+                <div class="form-group">
+                    <label>Course</label>
+                    <select class="form-control" name="course">
+                        {% if pageType == 'edit' %}
+                        <option value="{{getdata.Course}}">{{getdata.Course}}</option>
+                        {% else %}
+                        <option value="Select">Select the course</option>
+                        {% endif %}
+                        <option value="Python">Python</option>
+                        <option value="Java">Java</option>
+                        <option value="C++">C++</option>
+                        <option value="Web Design">Web Design</option>
+                        <option value="Dot Net">Dot Net</option>
+                        <option value="Testing">Testing</option>
+                        <option value="Data Science">Data Science</option>
+                        <option value="Data Analytics">Data Analytics</option>
+                    </select>
+                </div>
+                <div class="form-group pull-right">
+                    {% if pageType == 'edit' %}
+                    <input type="submit" value="Update" class="btn btn-primary">
+                    <a href="/cancel" class="btn btn-danger">Cancel</a>
+                    {% else %}
+                    <input type="submit" value="Add" class="btn btn-primary">
+                    <input type="reset" value="Clear" class="btn btn-danger">
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+
+        <!-- View Data -->
+        <div class="col-sm-offset-1 col-md-8">
+            {% if mylist %}
+            <table class="table table-bordered">
+                <thead class="text-center">
+                    <tr>
+                        <th class="text-center">S.No</th>
+                        <th class="text-center">Roll No.</th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Address</th>
+                        <th class="text-center">Email</th>
+                        <th class="text-center">Mobile Number</th>
+                        <th class="text-center">Course</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+
+                {% for data in mylist %}
+                <tbody>
+                    <tr>
+                        <td class="text-center"> {{forloop.counter}} </td>
+                        <td class="text-center"> {{data.Rollno}} </td>
+                        <td class="text-center"> {{data.Name}} </td>
+                        <td class="text-center"> {{data.Address}} </td>
+                        <td class="text-center"> {{data.Email}} </td>
+                        <td class="text-center"> {{data.Mobile}} </td>
+                        <td class="text-center"> {{data.Course}} </td>
+                        <td class="text-center">
+                            <a href="editData/{{data.id}}" class="btn btn-success btn-xs">Update</a>
+                            <a href="deleteData/{{data.id}}" class="btn btn-danger btn-xs">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+            {% endif %}
+        </div>
+    </div>
+    
+</body>
+</html>
